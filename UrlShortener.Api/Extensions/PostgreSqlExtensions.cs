@@ -1,12 +1,15 @@
 ﻿namespace UrlShortener.Api.Extensions;
+
 public static class PostgreSqlExtensions
 {
-    private const string ConnectionString = "shortenUrl-db";
-    public static IServiceCollection AddPostgreSqlConfig(this IServiceCollection services,
+    public static IServiceCollection AddPostgreSqlConfig(
+        this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(
-            options => options.UseNpgsql(configuration.GetConnectionString(ConnectionString)));
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseNpgsql(connectionString));
 
         return services;
     }
